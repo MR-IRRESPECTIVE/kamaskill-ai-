@@ -7,7 +7,7 @@ const AppState = {
     // -----------------------------------------------------
     // API
     // -----------------------------------------------------
-    apiBaseUrl: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "http://localhost:8000" : (window.KARMASKILL_API_URL || "https://your-production-backend.onrender.com"),
+    apiBaseUrl: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "http://localhost:8000" : (window.KARMASKILL_API_URL || "https://karmaskill-ai-backend.onrender.com"),
 
     // -----------------------------------------------------
     // Demo users
@@ -401,3 +401,4 @@ function setActiveAccount(accountType) {
    ========================================================= */
 
 initializeState();
+
