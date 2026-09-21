@@ -14,7 +14,7 @@ async function renderAssessmentsPage() {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -22,11 +22,11 @@ async function renderAssessmentsPage() {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
             <div class="page-header">
@@ -54,7 +54,7 @@ async function renderAssessmentsPage() {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -62,11 +62,11 @@ async function renderAssessmentsPage() {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
         <section class="initial-loading">
@@ -105,7 +105,7 @@ async function renderAssessmentsPage() {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -113,11 +113,11 @@ async function renderAssessmentsPage() {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
             <div class="page-header">
@@ -325,7 +325,7 @@ function showAttemptResult(quizId, attemptData) {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -333,11 +333,11 @@ function showAttemptResult(quizId, attemptData) {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
         <div class="quiz-results-fullscreen">
@@ -428,7 +428,7 @@ function renderQuizModal() {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -436,11 +436,11 @@ function renderQuizModal() {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
         <div class="fullscreen-quiz-container">
@@ -683,7 +683,7 @@ function renderQuizResultsModal(result) {
         
         let gapSectionHTML = '';
         if (gaps.length > 0) {
-            gapSectionHTML = 
+            gapSectionHTML = `
                 <div class="card mt-20 mb-20">
                     <div class="card-header">
                         <div class="card-title">Generate Targeted AI Assessment</div>
@@ -691,11 +691,11 @@ function renderQuizResultsModal(result) {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                             + gaps.map(g => <button class="btn btn-primary generate-assessment-btn" data-comp-id=" + g.competency_id + " data-comp-name=" + escapeHTML(g.competency) + ">Generate for  + escapeHTML(g.competency) + </button>).join("") + 
+                            ${gaps.map(g => `<button class="btn btn-primary generate-assessment-btn" data-comp-id="${g.competency_id}" data-comp-name="${escapeHTML(g.competency)}">Generate for ${escapeHTML(g.competency)}</button>`).join("")}
                         </div>
                     </div>
                 </div>
-            ;
+            `;
         }
         content.innerHTML = `
         <div class="quiz-results-fullscreen">
