@@ -94,6 +94,9 @@ class CourseCompetency(Base):
 
     coverage = Column(Float, default=0)
 
+    course = relationship("Course")
+    competency = relationship("Competency")
+
 class Assessment(Base):
     __tablename__ = "assessments"
 
@@ -234,3 +237,4 @@ class QuizAttempt(Base):
 
     quiz = relationship("Quiz")
     employee = relationship("Employee")
+

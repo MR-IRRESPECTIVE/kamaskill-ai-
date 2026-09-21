@@ -285,3 +285,74 @@ def submit_quiz(
         "competency_id": competency_id,
         "new_competency_level": new_competency_level if 'new_competency_level' in locals() else None
     }
+from typing import List, Optional
+from pydantic import BaseModel
+
+class QuizQuestionUpdate(BaseModel):
+    id: Optional[int] = None
+    question: str
+    option_a: str
+    option_b: str
+    option_c: str
+    option_d: str
+    correct_answer: str
+    difficulty: Optional[str] = None
+    explanation: Optional[str] = None
+    competency_id: Optional[int] = None
+
+class QuizUpdate(BaseModel):
+    title: str
+    questions: List[QuizQuestionUpdate]
+
+@router.get("/")
+def get_quizzes(db: Session = Depends(get_db)):
+    quizzes = db.query(Quiz).all()
+    result = []
+    for quiz in quizzes:
+        first_q = db.query(QuizQuestion).filter(QuizQuestion.quiz_id == quiz.id).first()
+        competency_name = None
+        if first_q and first_q.competency:
+            competency_name = first_q.competency.name
+        result.append({
+            "id": quiz.id,
+            "title": quiz.title,
+            "material_id": quiz.material_id,
+            "material_title": quiz.material.title if quiz.material else None,
+            "number_of_questions": quiz.number_of_questions,
+            "competency": competency_name
+        })
+    return result
+
+@router.put("/{quiz_id}")
+def update_quiz(quiz_id: int, update_data: QuizUpdate, db: Session = Depends(get_db)):
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    quiz.title = update_data.title.strip()
+    db.query(QuizQuestion).filter(QuizQuestion.quiz_id == quiz_id).delete()
+    db.flush()
+    for q in update_data.questions:
+        new_q = QuizQuestion(
+            quiz_id=quiz_id,
+            question=q.question,
+            option_a=q.option_a,
+            option_b=q.option_b,
+            option_c=q.option_c,
+            option_d=q.option_d,
+            correct_answer=q.correct_answer.upper(),
+            difficulty=q.difficulty,
+            explanation=q.explanation,
+            competency_id=q.competency_id
+        )
+        db.add(new_q)
+    quiz.number_of_questions = len(update_data.questions)
+    db.commit()
+    db.refresh(quiz)
+    return {"message": "Quiz updated successfully", "id": quiz.id, "title": quiz.title, "number_of_questions": quiz.number_of_questions}
+
+@router.get("/{quiz_id}/attempt/{employee_id}")
+def get_employee_quiz_attempt(quiz_id: int, employee_id: int, db: Session = Depends(get_db)):
+    attempt = db.query(QuizAttempt).filter(QuizAttempt.quiz_id == quiz_id, QuizAttempt.employee_id == employee_id).order_by(QuizAttempt.id.desc()).first()
+    if not attempt:
+        return {"attempted": False, "attempt": None}
+    return {"attempted": True, "attempt": {"id": attempt.id, "score": attempt.score, "total_questions": attempt.total_questions, "percentage": attempt.percentage}}

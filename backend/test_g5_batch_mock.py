@@ -250,4 +250,7 @@ for name, ok, msg in results:
 print("="*60)
 print(f"  {passed} passed, {failed} failed  (0 real Gemini API calls)")
 print("="*60)
-sys.exit(0 if failed == 0 else 1)
+if __name__ == '__main__':
+    sys.exit(0 if failed == 0 else 1)
+
+

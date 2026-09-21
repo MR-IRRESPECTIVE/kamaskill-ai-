@@ -9,6 +9,7 @@ from routers import roles
 from routers import recommendations
 from routers import materials
 from routers import quizzes
+from routers import courses
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,7 +26,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,6 +41,7 @@ app.include_router(roles.router)
 app.include_router(recommendations.router)
 app.include_router(materials.router)
 app.include_router(quizzes.router)
+app.include_router(courses.router)
 
 @app.get("/")
 def root():
@@ -57,3 +59,4 @@ def health():
     return {
         "status": "healthy"
     }
+

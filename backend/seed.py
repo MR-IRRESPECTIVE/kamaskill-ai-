@@ -89,9 +89,9 @@ db.refresh(employee)
 # Employee Competencies
 
 levels = {
-    "Data Analysis": (75, 85),
-    "Statistical Reasoning": (70, 88),
-    "Data Visualization": (70, 88),
+    "Data Analysis": (72, 85),
+    "Statistical Reasoning": (48, 80),
+    "Data Visualization": (55, 80),
     "Communication": (76, 75),
     "Policy Understanding": (68, 70)
 }
