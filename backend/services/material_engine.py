@@ -1,7 +1,8 @@
 import json
 import re
 
-from services.gemini_service import generate_text
+from services.providers.selector import get_generate_text
+generate_text = get_generate_text()
 
 
 def clean_json_response(text: str):

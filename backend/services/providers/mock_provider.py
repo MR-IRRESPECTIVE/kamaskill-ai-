@@ -22,11 +22,37 @@ def generate_text(prompt: str) -> str:
     """
     Parse the incoming batch prompt to extract section numbers and headings,
     then return a deterministic JSON array of MCQs — one per section.
-
-    The prompt format emitted by _build_batch_prompt() is:
-        SECTION <n>: <heading>
-        <body>
+    Also handles competency extraction and legacy MCQ generation.
     """
+    if "Identify which competencies" in prompt:
+        return json.dumps({
+            "competencies": [
+                {
+                    "name": "Data Analysis",
+                    "relevance": 90
+                }
+            ]
+        })
+
+    match_legacy = re.search(r"generate exactly (\d+) high-quality multiple choice questions", prompt)
+    if match_legacy:
+        num = int(match_legacy.group(1))
+        questions = []
+        for i in range(num):
+            questions.append({
+                "question": f"Mock legacy question {i+1}?",
+                "options": {
+                    "A": "Correct answer",
+                    "B": "Wrong option B",
+                    "C": "Wrong option C",
+                    "D": "Wrong option D",
+                },
+                "correct_answer": "A",
+                "explanation": "Mock explanation for legacy fallback.",
+                "difficulty": "Medium",
+            })
+        return json.dumps({"questions": questions})
+
     # Extract all (section_number, heading) pairs from the prompt
     section_pattern = re.compile(
         r"SECTION\s+(\d+):\s+(.+?)(?=\n---|\nSECTION|\Z)", re.DOTALL
