@@ -220,9 +220,7 @@ function setupStaticActions() {
     }
 }
 
-async function initializeBackendStatus() {
-    const connected = await checkBackendConnection();
-
+function setBackendStatus(connected) {
     let indicator = document.querySelector(".backend-status");
 
     if (!indicator) {
@@ -234,12 +232,10 @@ async function initializeBackendStatus() {
     }
 
     indicator.innerHTML = connected
-        ? `<span style="color:#10b981;font-size:14px">●</span> Backend Connected`
-        : `<span style="color:#ef4444;font-size:14px">●</span> Backend Offline`;
+        ? `<span style="color:#10b981;font-size:14px">&#9679;</span> Backend Connected`
+        : `<span style="color:#ef4444;font-size:14px">&#9679;</span> Backend Offline`;
 
     indicator.style.color = connected ? "#065f46" : "#991b1b";
-
-    return connected;
 }
 
 async function loadEmployeeData() {
@@ -317,13 +313,19 @@ async function initializeApplication() {
     setupAccountSwitcher();
     setupStaticActions();
 
-    const backendConnected = await initializeBackendStatus();
+    // Start background health check without blocking initialization
+    checkBackendConnection().then(setBackendStatus).catch(() => {});
 
-    if (backendConnected) {
+    try {
         await populateAccountSwitcher();
         if (!isAdmin()) {
             await loadEmployeeData();
         }
+        // If data loaded successfully, we are definitely connected.
+        setBackendStatus(true);
+    } catch (err) {
+        console.warn("API initialization failed:", err);
+        setBackendStatus(false);
     }
 
     updateAccountUI();
