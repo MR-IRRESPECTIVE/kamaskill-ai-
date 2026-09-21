@@ -227,7 +227,7 @@ function setBackendStatus(connected) {
         indicator = document.createElement("div");
         indicator.className = "backend-status";
         indicator.style.cssText =
-            "position:fixed;bottom:14px;right:14px;z-index:9999;padding:8px 14px;border-radius:20px;font:600 12px Inter,sans-serif;background:#fff;border:1px solid #e5e7eb;box-shadow:0 4px 15px rgba(0,0,0,.08);display:flex;align-items:center;gap:6px;";
+            "display:none;position:fixed;bottom:14px;right:14px;z-index:9999;padding:8px 14px;border-radius:20px;font:600 12px Inter,sans-serif;background:#fff;border:1px solid #e5e7eb;box-shadow:0 4px 15px rgba(0,0,0,.08);align-items:center;gap:6px;";
         document.body.appendChild(indicator);
     }
 
