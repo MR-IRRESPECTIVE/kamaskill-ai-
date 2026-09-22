@@ -9,7 +9,7 @@ async function renderAssessmentsPage() {
     if (!content) return;
 
     if (isAdmin()) {
-                const gapAnalysis = AppState.data.gapAnalysis || [];
+                const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
@@ -49,7 +49,7 @@ async function renderAssessmentsPage() {
     const employee = AppState.data.employee;
     const assessments = AppState.data.assessments || [];
 
-            const gapAnalysis = AppState.data.gapAnalysis || [];
+            const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
@@ -100,7 +100,7 @@ async function renderAssessmentsPage() {
 
         const completedCount = Object.values(quizAttemptMap).filter(a => a && a.attempted).length;
 
-                const gapAnalysis = AppState.data.gapAnalysis || [];
+                const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
@@ -320,7 +320,7 @@ function showAttemptResult(quizId, attemptData) {
     const content = $("#appContent");
     if (!content) return;
 
-            const gapAnalysis = AppState.data.gapAnalysis || [];
+            const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
@@ -423,7 +423,7 @@ function renderQuizModal() {
     const content = $("#appContent");
     if (!content) return;
 
-            const gapAnalysis = AppState.data.gapAnalysis || [];
+            const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
@@ -678,7 +678,7 @@ function renderQuizResultsModal(result) {
     const content = $("#appContent");
     if (!content) return;
 
-            const gapAnalysis = AppState.data.gapAnalysis || [];
+            const gapAnalysis = AppState.data.gapAnalysis?.competencies || [];
         const gaps = gapAnalysis.filter(g => Number(g.current_level) < Number(g.required_level));
         
         let gapSectionHTML = '';
