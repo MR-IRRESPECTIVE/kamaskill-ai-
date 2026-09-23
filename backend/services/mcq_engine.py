@@ -7,13 +7,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Provider selection — reads MOCK_GEMINI from env at import time.
-# Default is false; only 'true' enables the mock.
-_mock_flag = os.getenv("MOCK_GEMINI", "false").strip().lower()
-if _mock_flag == "true":
-    from services.providers.mock_provider import generate_text
-else:
-    from services.providers.gemini_provider import generate_text  # type: ignore[assignment]
+# Provider selection is now centralized in selector.py
+from services.providers.selector import get_generate_text
+generate_text = get_generate_text()
 
 
 def clean_json_response(text: str) -> str:

@@ -3,13 +3,12 @@ services/providers/selector.py
 
 Single point of provider selection.
 
-Reads MOCK_GEMINI from the environment (loaded from .env by dotenv).
-Default is false (real Gemini).  The mock provider is only active when
-MOCK_GEMINI=true is explicitly set.
+Reads AI_PROVIDER from the environment. Supported values:
+- gemini (default)
+- openrouter
+- mock
 
-Usage inside mcq_engine.py:
-    from services.providers.selector import get_generate_text
-    generate_text = get_generate_text()
+For backward compatibility, if AI_PROVIDER is not set, it checks MOCK_GEMINI.
 """
 import os
 from dotenv import load_dotenv
@@ -19,17 +18,28 @@ load_dotenv()
 
 def get_generate_text():
     """
-    Return the appropriate generate_text() callable based on MOCK_GEMINI.
-
-    Returns gemini_provider.generate_text unless MOCK_GEMINI is explicitly
-    set to the string 'true' (case-insensitive).
+    Return the appropriate generate_text() callable based on AI_PROVIDER or MOCK_GEMINI.
     """
+    provider = os.getenv("AI_PROVIDER", "").strip().lower()
+    
+    if provider == "openrouter":
+        from services.providers.openrouter_provider import generate_text
+        return generate_text
+        
+    if provider == "mock":
+        from services.providers.mock_provider import generate_text
+        return generate_text
+        
+    if provider == "gemini":
+        from services.providers.gemini_provider import generate_text
+        return generate_text
+        
+    # Backward compatibility with MOCK_GEMINI if AI_PROVIDER is not set
     mock_flag = os.getenv("MOCK_GEMINI", "false").strip().lower()
-
     if mock_flag == "true":
         from services.providers.mock_provider import generate_text
         return generate_text
 
-    # Default: real Gemini provider
+    # Default fallback: real Gemini provider
     from services.providers.gemini_provider import generate_text
     return generate_text
