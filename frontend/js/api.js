@@ -472,6 +472,21 @@ const API = {
 
 
     /*
+     * Delete a quiz completely
+     */
+    async deleteQuiz(quizId) {
+
+        return this.request(
+            `/quizzes/${quizId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+    },
+
+
+    /*
      * Check if an employee has already attempted a quiz.
      * Returns { attempted: bool, attempt: { score, percentage, ... } | null }
      */

@@ -8,7 +8,9 @@ from models import (
     QuizQuestion,
     Employee,
     QuizAttempt,
-    Assessment
+    Assessment,
+    LearningMaterial,
+    MaterialCompetency
 )
 
 from schemas import QuizAttemptCreate
@@ -349,6 +351,29 @@ def update_quiz(quiz_id: int, update_data: QuizUpdate, db: Session = Depends(get
     db.commit()
     db.refresh(quiz)
     return {"message": "Quiz updated successfully", "id": quiz.id, "title": quiz.title, "number_of_questions": quiz.number_of_questions}
+
+@router.delete("/{quiz_id}")
+def delete_quiz(quiz_id: int, db: Session = Depends(get_db)):
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    
+    material_id = quiz.material_id
+    
+    db.query(QuizQuestion).filter(QuizQuestion.quiz_id == quiz_id).delete()
+    db.query(QuizAttempt).filter(QuizAttempt.quiz_id == quiz_id).delete()
+    db.delete(quiz)
+    
+    if material_id:
+            other_quizzes = db.query(Quiz).filter(Quiz.material_id == material_id, Quiz.id != quiz_id).count()
+            if other_quizzes == 0:
+                db.query(MaterialCompetency).filter(MaterialCompetency.material_id == material_id).delete()
+                material = db.query(LearningMaterial).filter(LearningMaterial.id == material_id).first()
+                if material:
+                    db.delete(material)
+    
+    db.commit()
+    return {"message": "Quiz and orphaned material deleted successfully"}
 
 @router.get("/{quiz_id}/attempt/{employee_id}")
 def get_employee_quiz_attempt(quiz_id: int, employee_id: int, db: Session = Depends(get_db)):
